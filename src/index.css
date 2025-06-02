@@ -1,3 +1,15 @@
 .logo {
     width: 7rem;
 }
+
+.wrapper {
+  display: flex;
+  overflow-x: auto;
+  padding: 1rem 0;
+  gap: 1rem;
+}
+
+.swcard {
+  flex: 0 0 calc((100% - 2rem) / 2.5); 
+  scroll-snap-align: start; 
+}

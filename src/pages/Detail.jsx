@@ -1,48 +1,117 @@
-import { useSwapi } from "react-swapi";
+import { useParams, Link } from "react-router-dom";
+import useGlobalReducer from "../hooks/useGlobalReducer";
 
 export const Detail = () => {
+  const { theme, uid } = useParams();
+  const { store } = useGlobalReducer();
 
+  const detail = store.details[`${theme}-${uid}`];
 
-    const StarWarsCharacter = () => {
-	const { data, isLoading, error } = useSwapi("people", { name: "skywalker" });
+  if (!detail) {
+    return (
+      <div className="container mt-5">
+        <h1>Unfound article</h1>
+        <p>No data for this element</p>
+        <Link to="/" className="btn btn-secondary mt-4">⬅ Go back</Link>
+      </div>
+    );
+  }
 
-	if (isLoading) return <p>Loading...</p>;
-	if (error) return <p>Error: {error.message}</p>;
+ const imageUrl = `https://raw.githubusercontent.com/breatheco-de/swapi-images/09392b3f505af988e930f391f7b9cc38d43288d9/public/images/${theme}/${uid}.jpg`;
 
-	
-
-
-
-
-    return(
-        <div className="container">
-            <div className="row">
-                <div className="d-flex">
-                    <div className="mt-4"><img src="https://lumiere-a.akamaihd.net/v1/images/tatooine-main_9542b896.jpeg" alt="tatooine" style={{width: "28rem"}}/>
-                    </div>
-                    <div>
-                        <h1 className="text-center pt-2">Tatooine</h1>
-                        <div className="ms-4">Tatooine is harsh desert world orbiting twin suns in the galaxy’s Outer Rim.
-                        In the days of the Empire and the Republic, many settlers scratched out a 
-                        living on moisture farms, while spaceport cities such as Mos Eisley and Mos 
-                        Espa served as home base for smugglers, criminals, and other rogues. Anakin 
-                        Skywalker and Luke Skywalker both once called Tatooine home, although across
-                        the stars it was more widely known as a hive of scum and villainy ruled by 
-                        the crime boss Jabba the Hutt.
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr style={{color: "red", border: "1px solid red"}} />
+  return (
+    <div className="container mt-5">
+           <div className="row">
+        <div className="col-4">
+          <p className="box">
+              <img
+                src={imageUrl}
+                className="card-img-top"
+                alt={detail.name}
+              />
+          </p> 
+        </div>
+        <div className="col-8">
+           <h1 className="mb-3 text-center">{detail.name}</h1>
+           <p className="text-center ms-3">Lorem, ipsum dolor sit amet consectetur 
+            adipisicing elit. Consequuntur quae quos tempore mollitia iure veritatis, 
+            error doloremque quibusdam est et! Similique qui impedit inventore ad harum 
+            officiis consequatur omnis earum vero corporis. Nihil alias hic dolorum cumque 
+            quam accusamus ex facilis dignissimos mollitia sed. Vel illo nihil error sed. 
+            Tempora, adipisci! Minima dignissimos consequuntur alias ipsa error, iste 
+            accusantium aliquam ea, adipisci facere, cupiditate deleniti. Dignissimos 
+            dolorem neque dolores quia?</p>
+        </div>
+        <hr style={{color: "red", border: "1px solid red"}} />
             <div className="d-flex justify-content-evenly">
-            <div className="text-center text-danger me-4"><span className="fw-bold">Name</span> <br />Tatooine</div>
-            <div className="text-center text-danger me-4"><span className="fw-bold">Climate</span> <br />arid</div>
-            <div className="text-center text-danger me-4"><span className="fw-bold">Population</span> <br />20000000</div>
-            <div className="text-center text-danger me-4"><span className="fw-bold">Orbital Period</span> <br />304</div>
-            <div className="text-center text-danger me-4"><span className="fw-bold">Rotation Period</span> <br />23</div>
-            <div className="text-center text-danger me-4"><span className="fw-bold">Diameter</span> <br />10465</div>
+              {theme === "people" && (
+                            <>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Name</span> <br />
+                              {detail.name}</div>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Birth Year</span> <br />
+                              {detail.birth_year}</div>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Gender</span> <br />
+                              {detail.gender}</div>     
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Height</span> <br />
+                              {detail.height}</div>                              
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Skin Color</span> <br />
+                              {detail.skin_color}</div>                              
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Eye Color</span> <br />
+                              {detail.eye_color}</div>  
+                            </>
+                          )}
+              {theme === "planets" && (
+                            <>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Name</span> <br />
+                              {detail.name}</div>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Climate</span> <br />
+                              {detail.climate}</div>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Population</span> <br />
+                              {detail.population}</div>     
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Orbital Period</span> <br />
+                              {detail.orbital_period}</div>                              
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Rotation Period</span> <br />
+                              {detail.rotation_period}</div>                              
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Diameter</span> <br />
+                              {detail.diameter}</div>  
+                            </>
+                          )}                          
+              {theme === "vehicles" && (
+                            <>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Name</span> <br />
+                              {detail.name}</div>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Model</span> <br />
+                              {detail.model}</div>    
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Cargo Capacity</span> <br />
+                              {detail.cargo_capacity}</div>
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Passengers</span> <br />
+                              {detail.passengers}</div>     
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Crew</span> <br />
+                              {detail.crew}</div>                              
+                            <div className="text-center text-danger me-4">
+                              <span className="fw-bold">Length</span> <br />
+                              {detail.length}</div>                              
+                            </>
+                          )}      
             </div>
         </div>
-    )
-    }
+      </div>
+  );
 }

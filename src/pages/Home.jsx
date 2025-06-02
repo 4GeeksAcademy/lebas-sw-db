@@ -7,7 +7,7 @@ export const Home = () => {
 
 	return (
 		<div className="mt-5 container">
-			<div className="row">
+			<div className="row ps-5 pe-5">
 			<Card />
 			</div>
 		</div>
