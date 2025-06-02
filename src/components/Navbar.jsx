@@ -6,9 +6,12 @@ export const Navbar = () => {
 	const { store, dispatch } = useGlobalReducer();
   	const favorites = store.favorites;
 
-	const removeFavorite = (key) => {
-	const [theme, uid] = key.split("-");
-	dispatch({ type: "toggle_favorite", payload: { theme, uid } });
+	const removeFavorite = (fav) => {
+	const { theme, uid } = fav;
+	dispatch({
+		type: "toggle_favorite",
+		payload: { theme, uid }
+	});
 	};
 
 	useEffect(() => {
@@ -29,16 +32,18 @@ export const Navbar = () => {
 					data-bs-toggle="dropdown"
 					aria-expanded="false"
 					>
-					Favorites ({favorites.length})
+					Favorites <span className="badge bg-secondary ms-1">{favorites.length}</span>
 					</button>
 					<ul className="dropdown-menu dropdown-menu-end" aria-labelledby="favoritesDropdown">
 					{favorites.length === 0 ? (
 						<li className="dropdown-item text-muted">(empty)</li>
 					) : (
 						favorites.map(fav => (
-						<li key={fav.key} className="dropdown-item d-flex justify-content-between align-items-center">
+						<li key={fav.key || `${fav.theme}-${fav.uid}`} className="dropdown-item d-flex justify-content-between align-items-center">
 							<Link to={`/detail/${fav.theme}/${fav.uid}`} className="me-2">{fav.name}</Link>
-							<button className="btn btn-sm" onClick={() => removeFavorite(fav.key)}><i className="fa-solid fa-trash"></i></button>
+							<button className="btn btn-sm" onClick={() => removeFavorite(fav)}>
+								<i className="fa-solid fa-trash"></i>
+								</button>
 						</li>
 						))
 					)}

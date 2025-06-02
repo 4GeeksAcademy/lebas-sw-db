@@ -82,7 +82,6 @@ const themeTitle = {
   people: "Characters",
 };
 
-const isFavorite = store.favorites.some(fav => fav.key === key);
 
   return (
     <div className="container">

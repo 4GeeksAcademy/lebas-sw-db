@@ -1,4 +1,4 @@
-export function initialStore() {
+export const initialStore = () => {
   let data = {};
   let details = {};
   let favorites = [];
@@ -23,7 +23,7 @@ export function initialStore() {
         }
 
 
-export default function storeReducer(state, action) {
+export const storeReducer = (state, action) => {
   switch (action.type) {
     case "fetch_data":
       return {
@@ -58,17 +58,38 @@ export default function storeReducer(state, action) {
         }
       };  
     
-    case "toggle_favorite":
-      const key = action.payload.key;
-      const exists = state.favorites.some(fav => fav.key === key);
+    case "toggle_favorite": {
+      const { theme, uid, name, key } = action.payload;
+      const favoriteKey = key || `${theme}-${uid}`;
+      const exists = state.favorites.find(fav => fav.key === favoriteKey);
+
+      if (exists) {
         return {
           ...state,
-          favorites: exists
-            ? state.favorites.filter(fav => fav.key !== key)
-            : [...state.favorites, action.payload],
+          favorites: state.favorites.filter(fav => fav.key !== favoriteKey)
         };
+      }
+
+      if (!name || !favoriteKey) return state;
+
+      return {
+        ...state,
+        favorites: [
+          ...state.favorites,
+          {
+            theme,
+            uid,
+            name,
+            key: favoriteKey
+          }
+        ]
+      };
+    }
+
 
     default:
       return state;
   }
 }
+
+export default storeReducer
